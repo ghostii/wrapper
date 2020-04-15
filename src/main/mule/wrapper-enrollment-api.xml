@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3b489106-aa42-47bb-b355-67ae110baf0e" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="bff88eb0-98da-48df-82c0-617285110913" >
-		<http:request-connection protocol="HTTPS" host="https://apicld-dev.amgen.com/api/v1/website/enrollment" port="80" >
+		<http:request-connection protocol="HTTPS" host="apicld-dev.amgen.com/api/v1/website">
 			<tls:context >
 				<tls:key-store type="jks" path="D:\Users\sgaur01\Downloads\Enrollment API Cert\mulesoft-keystore.jks" keyPassword="uM@EG#2018" password="mulesoft" />
 			</tls:context>
 		</http:request-connection>
 	</http:request-config>
+	<api-gateway:autodiscovery apiId="16105496" doc:name="API Autodiscovery" doc:id="18aa67dc-92c6-4a9e-9034-45b07ffa20eb" flowRef="wrapper-enrollment-apiFlow" />
 	<flow name="wrapper-enrollment-apiFlow" doc:id="849e2c17-22ca-4ba0-8b0e-d7264b3fee29" >
 		<http:listener doc:name="/wrapper" doc:id="e3e1e159-f7f1-4681-aabd-748d032c5971" config-ref="HTTP_Listener_config" path="/wrapper"/>
-		<http:request method="POST" doc:name="Request" doc:id="475c7d12-cd18-422a-a0a0-b7dc6ae64a59" config-ref="HTTP_Request_configuration" url="https://apicld-dev.amgen.com/api/v1/website/enrollment">
+		<http:request method="POST" doc:name="Request" doc:id="475c7d12-cd18-422a-a0a0-b7dc6ae64a59" config-ref="HTTP_Request_configuration" path="/enrollment">
 			<http:headers ><![CDATA[#[output application/java
 ---
 {
