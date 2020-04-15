@@ -26,6 +26,15 @@
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
+					<cloudHubDeployment>
+					<objectStoreV2>true</objectStoreV2>
+					<username>shubham_raj123</username>
+					<environment>Sandbox</environment>
+					<workerType>Micro</workerType>
+					<applicationName>wrapper-enrollment-api</applicationName>
+					<password>Mar@2020</password>
+					<muleVersion>4.2.1</muleVersion>
+					</cloudHubDeployment>
 				</configuration>
 			</plugin>
 			
